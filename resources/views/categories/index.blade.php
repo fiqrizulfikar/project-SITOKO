@@ -1,61 +1,114 @@
 @extends('layouts.app')
-  
+
 @section('title', 'Daftar Kategori')
-  
+
 @section('contents')
-    <div class="d-flex align-items-center justify-content-between">
-        <form  action="{{ route('categories') }}" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-            <input name="search" type="text" placeholder="Cari kategori..." value="{{ request('search') }}" class="form-control bg-light border-0 small">
-            <div class="input-group-append">
-                <button class="btn btn-success" type="submit">
-                <i class="fas fa-search fa-sm"></i>
+<div class="card shadow-sm rounded-4 p-4">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
+        <!-- Form pencarian -->
+        <form action="{{ route('categories') }}" method="GET" class="w-100 w-md-auto">
+            <div class="input-group" style="max-width: 300px;">
+                <input 
+                    name="search" 
+                    type="text" 
+                    placeholder="Cari kategori..." 
+                    value="{{ request('search') }}" 
+                    class="form-control border-primary small" 
+                    style="border-width: 2px;">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search"></i>
                 </button>
             </div>
-            </div>
         </form>
-        <a href="{{ route('categories.create') }}" class="btn btn-success">Tambah Kategori</a>
+
+        <!-- Tombol tambah kategori -->
+        <a href="{{ route('categories.create') }}" class="btn btn-primary shadow-sm rounded-3">+ Tambah Kategori</a>
     </div>
-    <hr />
+
     @if(Session::has('success'))
         <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
         </div>
     @endif
-    <table class="table table-hover">
-        <thead class="table-success">
-            <tr>
-                <th>#</th>
-                <th>Nama</th>
-                <th>Deskripsi</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>+
-            @if($categories->count() > 0)
-                @foreach($categories as $category)
+
+    <!-- Tabel kategori -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-success">
+                <tr>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Deskripsi</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($categories as $category)
                     <tr>
-                        <td class="align-middle">{{ $loop->iteration }}</td>
-                        <td class="align-middle">{{ $category->name }}</td>
-                        <td class="align-middle truncate-text-700px">{{ $category->description }}</td>  
-                        <td class="align-middle">
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="{{ route('categories.show', $category->id) }}" type="button" class="btn btn-secondary">Detail</a>
-                                <a href="{{ route('categories.edit', $category->id)}}" type="button" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" type="button" class="btn btn-danger p-0" onsubmit="return confirm('Yakin ingin menghapus kategori?')">
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->description }}</td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <a href="{{ route('categories.show', $category->id) }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-eye"></i> Detail
+                                </a>
+                                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-outline-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kategori?')" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger m-0">Hapus</button>
+                                    <button class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </form>
                             </div>
                         </td>
                     </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td class="text-center" colspan="5">Kategori Tidak ditemukan</td>
-                </tr>
-            @endif
-        </tbody>
-    </table>
+                @empty
+                    <tr>
+                        <td class="text-center" colspan="4">Kategori tidak ditemukan.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection
+
+@section('styles')
+<style>
+    .btn-primary {
+        background-color: #4F86F7; /* warna biru cerah */
+        border-color: #4F86F7;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #3b6edc;
+        border-color: #3b6edc;
+        box-shadow: 0px 4px 8px rgba(79, 134, 247, 0.3);
+    }
+
+    .btn-outline-secondary:hover,
+    .btn-outline-warning:hover,
+    .btn-outline-danger:hover {
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .input-group .form-control {
+        border-right: none;
+    }
+
+    .input-group .btn {
+        border-left: none;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        font-size: 14px;
+        color: #6c757d;
+    }
+</style>
 @endsection

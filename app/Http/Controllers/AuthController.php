@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use App\Models\LoginLog;
   
 class AuthController extends Controller
 {
@@ -65,6 +66,12 @@ class AuthController extends Controller
         }
   
         $request->session()->regenerate();
+
+        LoginLog::create([
+            'admin_id'   => auth()->id(),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('User-Agent'),
+        ]);
   
         return redirect()->route('dashboard');
     }

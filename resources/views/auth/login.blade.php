@@ -6,13 +6,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Masuk - Toko Lancar</title>
+  <title>Masuk - SITOKO</title>
   <!-- fonts-->
   <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   
   <!-- styles-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+  <style>
+    /* Mengubah warna latar belakang login menjadi biru */
+    .bg-gradient-success {
+      background: linear-gradient(to right, #007BFF, #0056b3);
+    }
+
+    /* Ganti warna tombol menjadi biru */
+    .btn-success {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .btn-success:hover {
+      background-color: #004085;
+      border-color: #004085;
+    }
+
+    /* Ganti warna teks di form */
+    .form-control-user {
+      border-color: #007bff;
+    }
+
+    /* Gambar pada sisi kanan */
+    .bg-login-image {
+      background-image: url('https://i.pinimg.com/474x/04/07/7b/04077b584f580d0372eb63f7db77904b.jpg'); /* Ganti URL dengan gambar pilihan kamu */
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
 </head>
 <body class="bg-gradient-success">
   <div class="container">
@@ -23,7 +51,10 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
+              <!-- Sisi gambar -->
               <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+
+              <!-- Sisi form login -->
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -21,12 +22,31 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
 
+// Route dengan auth middleware
 Route::middleware('auth')->group(function () {
+
+    // Verifikasi Email Routes
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('dashboard'); // setelah verifikasi, masuk dashboard
+    })->middleware(['signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function () {
+        auth()->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Link verifikasi telah dikirim ke email kamu!');
+    })->middleware('throttle:6,1')->name('verification.send');
+
+    // Dashboard
     Route::controller(DashboardController::class)->prefix('dashboard')->group(function () {
         Route::get('', 'index')->name('dashboard');
-        Route::get('/api', 'api')->name('dashboard.api'); // Menambahkan API untuk dashboard
+        Route::get('/api', 'api')->name('dashboard.api');
     });
 
+    // Products
     Route::controller(ProductController::class)->prefix('products')->group(function () {
         Route::get('', 'index')->name('products');
         Route::get('create', 'create')->name('products.create');
@@ -37,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('destroy/{id}', 'destroy')->name('products.destroy');
     });
 
+    // Categories
     Route::controller(CategoryController::class)->prefix('categories')->group(function () {
         Route::get('', 'index')->name('categories');
         Route::get('create', 'create')->name('categories.create');
@@ -47,7 +68,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('destroy/{id}', 'destroy')->name('categories.destroy');
     });
 
-    // Rute untuk Profile
+    // Profil Admin
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 });
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

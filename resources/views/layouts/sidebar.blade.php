@@ -17,6 +17,27 @@
       <span>Dashboard</span></a>
   </li>
 
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('products') }}">
+      <i class="fas fa-fw fa-chart-line"></i>
+      <span>Products</span></a>
+  </li>
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('categories') }}">
+      <i class="fas fa-fw fa-chart-line"></i>
+      <span>Categories</span></a>
+  </li>
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('profile') }}">
+      <i class="fas fa-fw fa-chart-line"></i>
+      <span>Profile</span></a>
+  </li>
+
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">

@@ -7,19 +7,18 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>Masuk - SITOKO</title>
+
   <!-- fonts-->
   <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-  
+
   <!-- styles-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
   <style>
-    /* Mengubah warna latar belakang login menjadi biru */
     .bg-gradient-success {
       background: linear-gradient(to right, #007BFF, #0056b3);
     }
 
-    /* Ganti warna tombol menjadi biru */
     .btn-success {
       background-color: #0056b3;
       border-color: #0056b3;
@@ -29,14 +28,12 @@
       border-color: #004085;
     }
 
-    /* Ganti warna teks di form */
     .form-control-user {
       border-color: #007bff;
     }
 
-    /* Gambar pada sisi kanan */
     .bg-login-image {
-      background-image: url('https://i.pinimg.com/474x/04/07/7b/04077b584f580d0372eb63f7db77904b.jpg'); /* Ganti URL dengan gambar pilihan kamu */
+      background-image: url('https://i.pinimg.com/474x/04/07/7b/04077b584f580d0372eb63f7db77904b.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -60,33 +57,38 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
                   </div>
-                  <form action="{{ route('login.action') }}" method="POST" class="user">
+                  <form action="{{ route('login') }}" method="POST" class="user">
                     @csrf
+
+                    {{-- Tampilkan pesan error --}}
                     @if ($errors->any())
                       <div class="alert alert-danger">
-                          <ul>
-                            @foreach ($errors->all() as $error)
-                              <li>{{ $error }}</li>
-                            @endforeach
-                          </ul>
+                        <ul class="mb-0">
+                          @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                          @endforeach
+                        </ul>
                       </div>
                     @endif
+
                     <div class="form-group">
-                      <input name="email" type="email" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Email Anda...">
+                      <input name="email" type="email" class="form-control form-control-user" value="{{ old('email') }}" required autofocus placeholder="Email Anda...">
                     </div>
                     <div class="form-group">
-                      <input name="password" type="password" class="form-control form-control-user" placeholder="Password">
+                      <input name="password" type="password" class="form-control form-control-user" required placeholder="Password">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
                         <input name="remember" type="checkbox" class="custom-control-input" id="customCheck">
-                        <label class="custom-control-label" for="customCheck">Ingat
-                          Saya</label>
+                        <label class="custom-control-label" for="customCheck">Ingat Saya</label>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-success btn-block btn-user">Masuk</button>
                   </form>
                   <hr>
+                  <div class="text-center">
+                    <a class="small" href="{{ route('password.request') }}">Lupa Password?</a>
+                  </div>
                   <div class="text-center">
                     <a class="small" href="{{ route('register') }}">Buat akun baru!</a>
                   </div>
@@ -98,6 +100,7 @@
       </div>
     </div>
   </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('admin_assets/vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

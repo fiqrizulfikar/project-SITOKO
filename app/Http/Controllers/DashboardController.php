@@ -10,21 +10,21 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Menghitung total stok, total produk, dan total kategori
+        // Total stok, produk, kategori
         $totalStock = Product::sum('stock');
         $totalProduct = Product::count();
         $totalCategory = Category::count();
 
-        // Mengambil 5 produk terbaru
+        // Produk terbaru (5 data)
         $produkTerbaru = Product::latest()->take(5)->get();
 
-        // Mengambil 5 kategori dengan jumlah produk terbanyak
+        // Kategori dengan produk terbanyak (5 data)
         $kategoriTerbanyak = Category::withCount('products')
             ->orderByDesc('products_count')
             ->take(5)
             ->get();
 
-        // Menyiapkan data untuk chart Produk Terbaru (Area Chart)
+        // Data area chart: produk terbaru
         $produkTerbaruData = $produkTerbaru->map(function ($produk) {
             return [
                 'name' => $produk->name,
@@ -32,7 +32,7 @@ class DashboardController extends Controller
             ];
         });
 
-        // Menyiapkan data untuk chart Kategori Terbanyak (Pie Chart)
+        // Data pie chart: kategori terbanyak
         $kategoriTerbanyakData = $kategoriTerbanyak->map(function ($kategori) {
             return [
                 'name' => $kategori->name,
@@ -40,7 +40,9 @@ class DashboardController extends Controller
             ];
         });
 
-        // Mengirimkan data ke view dashboard
+        // 🔔 Produk dengan stok menipis (stok < 5)
+        $lowStockProducts = Product::where('stock', '<', 5)->get();
+
         return view('dashboard', compact(
             'totalStock',
             'totalProduct',
@@ -48,7 +50,8 @@ class DashboardController extends Controller
             'produkTerbaru',
             'kategoriTerbanyak',
             'produkTerbaruData',
-            'kategoriTerbanyakData'
+            'kategoriTerbanyakData',
+            'lowStockProducts' // <- kirim ke view
         ));
     }
 }

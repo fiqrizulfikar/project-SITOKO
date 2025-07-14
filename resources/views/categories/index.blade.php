@@ -21,8 +21,21 @@
             </div>
         </form>
 
-        <!-- Tombol tambah kategori -->
-        <a href="{{ route('categories.create') }}" class="btn btn-primary shadow-sm rounded-3">+ Tambah Kategori</a>
+        <!-- Tombol aksi -->
+        <div class="d-flex align-items-center gap-2 flex-nowrap">
+            <a href="{{ route('categories.export.excel') }}" class="btn btn-outline-success btn-sm rounded-pill px-3 d-flex align-items-center gap-1">
+                <i class="fas fa-file-excel"></i>
+                <span class="d-none d-md-inline">Excel</span>
+            </a>
+            <a href="{{ route('categories.export.pdf') }}" class="btn btn-outline-danger btn-sm rounded-pill px-3 d-flex align-items-center gap-1">
+                <i class="fas fa-file-pdf"></i>
+                <span class="d-none d-md-inline">PDF</span>
+            </a>
+            <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm rounded-pill px-3 d-flex align-items-center gap-1">
+                <i class="fas fa-plus"></i>
+                <span class="d-none d-md-inline">Tambah</span>
+            </a>
+        </div>
     </div>
 
     @if(Session::has('success'))
@@ -80,7 +93,7 @@
 @section('styles')
 <style>
     .btn-primary {
-        background-color: #4F86F7; /* warna biru cerah */
+        background-color: #4F86F7;
         border-color: #4F86F7;
         transition: all 0.3s ease;
     }
@@ -89,6 +102,20 @@
         background-color: #3b6edc;
         border-color: #3b6edc;
         box-shadow: 0px 4px 8px rgba(79, 134, 247, 0.3);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+        border-color: #dc3545;
+        box-shadow: 0px 4px 8px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-success:hover {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+        box-shadow: 0px 4px 8px rgba(40, 167, 69, 0.3);
     }
 
     .btn-outline-secondary:hover,

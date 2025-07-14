@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-  
+
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
- 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
+
 class ProductController extends Controller
 {
     public function index(Request $request)
@@ -18,26 +21,26 @@ class ProductController extends Controller
         $products = $queryProducts->get();
         return view('products.index', compact('products'));
     }
-  
+
     public function create()
     {
         $categories = Category::all(); 
         return view('products.create', compact('categories'));
     }
-  
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'name'        => 'required',
+            'price'       => 'required|numeric',
+            'stock'       => 'required|numeric',
             'category_id' => 'required',
             'description' => 'required',
         ]);
+
         Product::create($request->all());
         return redirect()->route('products')->with('success', 'Berhasil menambah produk');
     }
-  
 
     public function show(string $id)
     {
@@ -52,29 +55,41 @@ class ProductController extends Controller
         $categories = Category::all(); 
         return view('products.edit', compact('product', 'categories'));
     }
-  
+
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'name'        => 'required',
+            'price'       => 'required|numeric',
+            'stock'       => 'required|numeric',
             'category_id' => 'required',
             'description' => 'required',
         ]);
+
         $product = Product::findOrFail($id);
         $product->update($request->all());
-  
+
         return redirect()->route('products')->with('success', 'Berhasil mengupdate produk');
     }
-  
- 
+
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
-  
         $product->delete();
-  
+
         return redirect()->route('products')->with('success', 'Berhasil menghapus produk');
+    }
+
+    // ✅ Fitur Export PDF
+    public function exportPdf()
+    {
+        $products = Product::with('category')->get();
+        $pdf = Pdf::loadView('products.export-pdf', compact('products'));
+        return $pdf->download('data-produk.pdf');
+    }
+
+    public function exportExcel()
+    {
+    return Excel::download(new ProductsExport, 'produk.xlsx');
     }
 }

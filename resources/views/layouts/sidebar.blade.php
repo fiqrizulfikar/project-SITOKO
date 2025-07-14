@@ -1,4 +1,4 @@
-<ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
     <div class="sidebar-brand-icon rotate-n-15">
@@ -10,90 +10,59 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item">
+  <!-- Dashboard -->
+  <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('dashboard') }}">
       <i class="fas fa-fw fa-chart-line"></i>
-      <span>Dashboard</span></a>
+      <span>Dashboard</span>
+    </a>
   </li>
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item">
+  <!-- Products -->
+  <li class="nav-item {{ request()->routeIs('products*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('products') }}">
-      <i class="fas fa-fw fa-chart-line"></i>
-      <span>Products</span></a>
+      <i class="fas fa-fw fa-boxes"></i>
+      <span>Products</span>
+    </a>
   </li>
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item">
+  <!-- Categories -->
+  <li class="nav-item {{ request()->routeIs('categories*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('categories') }}">
-      <i class="fas fa-fw fa-chart-line"></i>
-      <span>Categories</span></a>
+      <i class="fas fa-fw fa-tags"></i>
+      <span>Categories</span>
+    </a>
   </li>
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item">
+  <!-- Transaksi Penjualan -->
+  <li class="nav-item {{ request()->routeIs('sales*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('sales') }}">
+      <i class="fas fa-fw fa-cash-register"></i>
+      <span>Transaksi Penjualan</span>
+    </a>
+  </li>
+
+  <!-- Laporan Penjualan -->
+<li class="nav-item {{ request()->routeIs('sales.report.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('sales.report.form') }}">
+        <i class="fas fa-fw fa-calendar-alt"></i>
+        <span>Laporan Penjualan</span>
+    </a>
+</li>
+
+  <!-- Profile -->
+  <li class="nav-item {{ request()->routeIs('profile') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('profile') }}">
-      <i class="fas fa-fw fa-chart-line"></i>
-      <span>Profile</span></a>
+      <i class="fas fa-fw fa-user-circle"></i>
+      <span>Profile</span>
+    </a>
   </li>
-
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
 
-  <!-- Sidebar Toggler (Sidebar) -->
+  <!-- Sidebar Toggler -->
   <div class="text-center d-none d-md-inline">
     <button class="rounded-circle border-0" id="sidebarToggle"></button>
   </div>
 </ul>
-
-<!-- Custom CSS -->
-<style>
-  /* Ganti warna latar belakang sidebar menjadi biru */
-  .bg-gradient-success {
-    background-color: #007BFF !important; /* Ganti dengan warna biru yang diinginkan */
-    background-image: none; /* Menghilangkan gradient */
-  }
-
-  /* Ganti warna ikon menjadi putih */
-  .sidebar .nav-link i {
-    color: #ffffff; /* Ikon berwarna putih */
-  }
-
-  /* Ganti warna teks di sidebar menjadi putih untuk link biasa */
-  .sidebar .nav-link span {
-    color: #ffffff; /* Teks berwarna putih */
-  }
-
-  /* Hover efek pada link sidebar */
-  .sidebar .nav-link:hover {
-    color: #007BFF; /* Teks berwarna biru saat hover */
-  }
-
-  /* Menandai link yang aktif (menu yang sedang aktif) */
-  .sidebar .nav-item.active .nav-link {
-    background-color: #ffffff; /* Latar belakang putih saat item aktif */
-    color: #007BFF; /* Teks berwarna biru saat item aktif */
-  }
-
-  /* Ganti warna untuk brand di sidebar */
-  .sidebar-brand-text {
-    color: #ffffff; /* Teks brand berwarna putih */
-  }
-
-  .sidebar-brand-icon {
-    color: #ffffff; /* Ikon brand berwarna putih */
-  }
-
-  /* Ganti warna tombol sidebar toggle */
-  #sidebarToggle {
-    background-color: #007BFF; /* Tombol toggle berwarna biru */
-    border-color: #fff;
-  }
-
-  #sidebarToggle:hover {
-    background-color: #fff;
-    border-color: #007BFF;
-  }
-</style>

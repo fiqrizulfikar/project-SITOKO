@@ -12,6 +12,19 @@ $items = [
 
 @section('contents')
 <div class="container-fluid py-4">
+    {{-- Notifikasi Stok Menipis --}}
+    @if($lowStockProducts->count() > 0)
+    <div class="alert alert-warning shadow-sm rounded-3 mb-4">
+        <strong>⚠️ Stok Menipis!</strong> Ada {{ $lowStockProducts->count() }} produk dengan stok kurang dari 5:
+        <ul class="mb-0 mt-2">
+            @foreach($lowStockProducts as $product)
+                <li>{{ $product->name }} (Stok: {{ $product->stock }})</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    {{-- Info Cards --}}
     <div class="row">
         @foreach($items as $item)
             <div class="col-xl-4 col-md-6 mb-4">
@@ -36,6 +49,7 @@ $items = [
         @endforeach
     </div>
 
+    {{-- Charts --}}
     <div class="row">
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7 mb-4">
